@@ -177,3 +177,17 @@ textarea.form-input {
     margin-top: 15px !important;
     padding: 12px !important;
 }
+
+/* FIX: Disable Glitch Animation on Mobile (Prevents GPU Freeze) */
+.splash-text-glitch::before,
+.splash-text-glitch::after {
+    animation: none !important;
+    display: none !important;
+    /* Double kill: Hide the layers */
+}
+
+.splash-text-glitch {
+    animation: none !important;
+    opacity: 1 !important;
+    /* Ensure visible w/o anim */
+}
