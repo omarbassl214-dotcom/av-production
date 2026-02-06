@@ -374,62 +374,62 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
 
-        // 2. Spotlight & Magnets
-        const cursor = document.querySelector('.cursor-spotlight');
-        const magnets = document.querySelectorAll('.btn-pill');
+        // 2. Spotlight & Magnets (DESKTOP ONLY)
+        if (window.innerWidth > 1024) {
+            const cursor = document.querySelector('.cursor-spotlight');
+            const magnets = document.querySelectorAll('.btn-pill');
 
-        document.addEventListener('mousemove', (e) => {
-            if (cursor) {
-                gsap.to(cursor, {
-                    x: e.clientX,
-                    y: e.clientY,
-                    duration: 0.1,
-                    autoAlpha: 1,
-                    overwrite: "auto"
-                });
-            }
-
-            magnets.forEach(btn => {
-                const rect = btn.getBoundingClientRect();
-                const distance = Math.hypot(e.clientX - (rect.left + rect.width / 2), e.clientY - (rect.top + rect.height / 2));
-
-                if (distance < 100) {
-                    gsap.to(btn, {
-                        x: (e.clientX - (rect.left + rect.width / 2)) / 3,
-                        y: (e.clientY - (rect.top + rect.height / 2)) / 3,
-                        duration: 0.3
+            document.addEventListener('mousemove', (e) => {
+                if (cursor) {
+                    gsap.to(cursor, {
+                        x: e.clientX,
+                        y: e.clientY,
+                        duration: 0.1,
+                        autoAlpha: 1,
+                        overwrite: "auto"
                     });
-                } else {
-                    gsap.to(btn, { x: 0, y: 0, duration: 0.3 });
                 }
-            });
-        });
 
-        // 4. Parallax
-        const galleryItems = document.querySelectorAll('.gallery-item');
-        galleryItems.forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
+                magnets.forEach(btn => {
+                    const rect = btn.getBoundingClientRect();
+                    const distance = Math.hypot(e.clientX - (rect.left + rect.width / 2), e.clientY - (rect.top + rect.height / 2));
 
-                const rotateX = ((y - centerY) / centerY) * -10;
-                const rotateY = ((x - centerX) / centerX) * 10;
-
-                gsap.to(card, {
-                    rotateX: rotateX,
-                    rotateY: rotateY,
-                    transformPerspective: 1000,
-                    duration: 0.5
+                    if (distance < 100) {
+                        gsap.to(btn, {
+                            x: (e.clientX - (rect.left + rect.width / 2)) / 3,
+                            y: (e.clientY - (rect.top + rect.height / 2)) / 3,
+                            duration: 0.3
+                        });
+                    } else {
+                        gsap.to(btn, { x: 0, y: 0, duration: 0.3 });
+                    }
                 });
             });
 
-            card.addEventListener('mouseleave', () => {
-                gsap.to(card, { rotateX: 0, rotateY: 0, duration: 0.5 });
+            // 4. Parallax (DESKTOP ONLY)
+            const galleryItems = document.querySelectorAll('.gallery-item');
+            galleryItems.forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+
+                    const rotateX = ((y - centerY) / centerY) * -10;
+                    const rotateY = ((x - centerX) / centerX) * 10;
+
+                    gsap.to(card, {
+                        rotateX: rotateX,
+                        rotateY: rotateY,
+                        transformPerspective: 1000,
+                        duration: 0.5
+                    });
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    gsap.to(card, { rotateX: 0, rotateY: 0, duration: 0.5 });
+                });
             });
         });
-    }
-
 });
