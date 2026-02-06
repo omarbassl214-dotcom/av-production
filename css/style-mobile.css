@@ -123,15 +123,16 @@ h1 {
     bottom: 0 !important;
     left: 0 !important;
     width: 100% !important;
-    height: 150px !important;
-    /* Match JS height */
+    height: 80px !important;
+    /* Reverted to small height */
     z-index: 9999 !important;
     pointer-events: none;
     opacity: 0;
-    transform: translateZ(0);
-    /* Hardware accelerate position only */
-    padding-bottom: env(safe-area-inset-bottom);
-    /* Respect iPhone Home Bar */
+    transform: none !important;
+    /* Reset transforms */
+    padding: 0 !important;
+    /* ZERO padding */
+    margin: 0 !important;
 }
 
 /* COMPACT CONTACT SECTION (Mobile Fix) */
@@ -174,4 +175,13 @@ textarea.form-input {
 #contact button[type="submit"] {
     margin-top: 15px !important;
     padding: 12px !important;
+}
+
+/* FIX: Footer Spacing for Visualizer */
+footer {
+    padding-bottom: 120px !important;
+    /* Push copyright text UP above visualizer */
+    position: relative;
+    z-index: 10000;
+    /* Ensure on top of visualizer if overlap occurs */
 }
