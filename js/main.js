@@ -30,8 +30,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 3500); // 3.5 seconds max tolerance
 
 
-    // --- REMOVED THEME SWITCHER LOGIC (Dark Mode Enforced via HTML) ---
-
     // --- Smooth Scroll (Lenis + GSAP Integration) ---
     // Using the robust GSAP ticker integration to prevent jitter
     let lenis;
@@ -234,7 +232,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 ease: "power2.out"
             });
 
-            // Mouse Parallax
+            // 4. Mouse Parallax (Orbs)
             document.addEventListener("mousemove", (e) => {
                 const x = (e.clientX / window.innerWidth - 0.5) * 20;
                 const y = (e.clientY / window.innerHeight - 0.5) * 20;
@@ -243,63 +241,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 gsap.to(".orb-2", { x: -x, y: -y, duration: 2, ease: "power2.out" });
                 gsap.to(".orb-3", { x: x * 0.5, y: y * 0.5, duration: 2, ease: "power2.out" });
             });
-
-            // Scroll Reveals...
-            gsap.utils.toArray('.glass-card').forEach((card, i) => {
-                gsap.from(card, {
-                    scrollTrigger: {
-                        trigger: card,
-                        start: "top 90%",
-                        end: "bottom 10%",
-                        toggleActions: "play none none reverse",
-                    },
-                    y: 50,
-                    scale: 0.9,
-                    rotationX: 0,
-                    opacity: 0,
-                    duration: 1,
-                    ease: "power3.out",
-                });
-            });
-
-            // Gallery ...
-            gsap.from(".gallery-item", {
-                scrollTrigger: {
-                    trigger: ".gallery-grid",
-                    start: "top 85%",
-                    end: "bottom 15%",
-                    toggleActions: "play none none reverse",
-                },
-                y: 50,
-                scale: 0.95,
-                opacity: 0,
-                duration: 0.8,
-                stagger: 0.1,
-                ease: "power2.out",
-            });
-
-            // Contact Section ...
-            const contactTl = gsap.timeline({
-                scrollTrigger: {
-                    trigger: "#contact",
-                    start: "top 85%",
-                    end: "bottom 20%",
-                    toggleActions: "play none none reverse",
-                }
-            });
-
-            contactTl.from("#contact h2", {
-                y: 30,
-                opacity: 0,
-                duration: 0.6,
-                ease: "back.out(1.5)"
-            })
-                .from(".contact-container", {
-                    scale: 0.9,
-                    opacity: 0,
-                    duration: 0.8,
-                    ease: "power3.out"
-                }, "-=0.4");
 
 
             // --- Smart Navbar ---
@@ -324,7 +265,65 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                 }
             });
-        }
+        } // End initHeroAnimations
+
+        // Scroll Reveals...
+        gsap.utils.toArray('.glass-card').forEach((card, i) => {
+            gsap.from(card, {
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 90%",
+                    end: "bottom 10%",
+                    toggleActions: "play none none reverse",
+                },
+                y: 50,
+                scale: 0.9,
+                rotationX: 0,
+                opacity: 0,
+                duration: 1,
+                ease: "power3.out",
+            });
+        });
+
+        // Gallery ...
+        gsap.from(".gallery-item", {
+            scrollTrigger: {
+                trigger: ".gallery-grid",
+                start: "top 85%",
+                end: "bottom 15%",
+                toggleActions: "play none none reverse",
+            },
+            y: 50,
+            scale: 0.95,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.1,
+            ease: "power2.out",
+        });
+
+        // Contact Section ...
+        const contactTl = gsap.timeline({
+            scrollTrigger: {
+                trigger: "#contact",
+                start: "top 85%",
+                end: "bottom 20%",
+                toggleActions: "play none none reverse",
+            }
+        });
+
+        contactTl.from("#contact h2", {
+            y: 30,
+            opacity: 0,
+            duration: 0.6,
+            ease: "back.out(1.5)"
+        })
+            .from(".contact-container", {
+                scale: 0.9,
+                opacity: 0,
+                duration: 0.8,
+                ease: "power3.out"
+            }, "-=0.4");
+
 
         // --- Premium Features Implementation ---
 
@@ -431,4 +430,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 gsap.to(card, { rotateX: 0, rotateY: 0, duration: 0.5 });
             });
         });
-    });
+    }
+
+});
