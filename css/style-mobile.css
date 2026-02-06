@@ -142,29 +142,7 @@ h1 {
     /* Extra space for Visualizer + Safe Area */
 }
 
-/* FIX: Optimized Background for Mobile (v37) */
-/* Replaces heavy 'blur' filters with fast 'radial-gradients' */
-.orb-1 {
-    background: radial-gradient(circle, rgba(0, 255, 255, 0.4) 0%, transparent 70%) !important;
-    filter: none !important;
-    width: 300px !important;
-    /* Ensure visible size */
-    height: 300px !important;
-}
-
-.orb-2 {
-    background: radial-gradient(circle, rgba(255, 0, 255, 0.4) 0%, transparent 70%) !important;
-    filter: none !important;
-    width: 280px !important;
-    height: 280px !important;
-}
-
-/* Hide complex beams that are too heavy for mobile */
-.holo-beam,
-.spotlight-beam,
-.spotlight-source {
-    display: none !important;
-}
+/* (Optimization Block Removed - Restoring v36 Visuals) */
 
 .contact-container {
     padding: 20px 15px !important;
