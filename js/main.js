@@ -178,7 +178,27 @@ document.addEventListener("DOMContentLoaded", () => {
             drawVisualizer();
 
             // --- 2. Background Orbs Animation (Float) ---
-            // --- 3. Hero Content Reveal (Priority) ---
+            setTimeout(() => {
+                gsap.to(".orb-1", {
+                    y: "random(-50, 50)",
+                    x: "random(-50, 50)",
+                    duration: "random(10, 20)",
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut"
+                });
+
+                gsap.to(".orb-2", {
+                    y: "random(-30, 30)",
+                    x: "random(-30, 30)",
+                    duration: "random(15, 25)",
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut"
+                });
+            }, 500);
+
+            // --- 3. Hero Content Reveal ---
             const heroTl = gsap.timeline({ delay: 0.1 });
 
             heroTl
@@ -213,28 +233,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 delay: 0.2,
                 ease: "power2.out"
             });
-
-            // --- 2. Background Orbs Animation (Float) ---
-            // --- 2. Background Orbs Animation (Float) ---
-            setTimeout(() => {
-                gsap.to(".orb-1", {
-                    y: "random(-50, 50)",
-                    x: "random(-50, 50)",
-                    duration: "random(10, 20)",
-                    repeat: -1,
-                    yoyo: true,
-                    ease: "sine.inOut"
-                });
-
-                gsap.to(".orb-2", {
-                    y: "random(-30, 30)",
-                    x: "random(-30, 30)",
-                    duration: "random(15, 25)",
-                    repeat: -1,
-                    yoyo: true,
-                    ease: "sine.inOut"
-                });
-            }, 500);
 
             // Mouse Parallax
             document.addEventListener("mousemove", (e) => {
