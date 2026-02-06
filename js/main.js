@@ -406,7 +406,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
             });
 
-            // 4. Parallax (DESKTOP ONLY)
+            // 4. Parallax (3D Tilt)
             const galleryItems = document.querySelectorAll('.gallery-item');
             galleryItems.forEach(card => {
                 card.addEventListener('mousemove', (e) => {
@@ -431,5 +431,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     gsap.to(card, { rotateX: 0, rotateY: 0, duration: 0.5 });
                 });
             });
-        });
-});
+        }
+
+    });
