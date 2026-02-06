@@ -215,7 +215,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             // --- 2. Background Orbs Animation (Float) ---
-            // DEFER ORBS TO 1.5s (Avoid 1FPS lag at start)
+            // --- 2. Background Orbs Animation (Float) ---
             setTimeout(() => {
                 gsap.to(".orb-1", {
                     y: "random(-50, 50)",
@@ -234,22 +234,17 @@ document.addEventListener("DOMContentLoaded", () => {
                     yoyo: true,
                     ease: "sine.inOut"
                 });
+            }, 500);
 
-                // --- 4. START INTERACTIVITY LATER ---
-                // Only add mouse listener after animations are done (3s delay)
-                document.addEventListener("mousemove", (e) => {
-                    // Simple throttle
-                    if (Date.now() % 2 !== 0) return;
+            // Mouse Parallax
+            document.addEventListener("mousemove", (e) => {
+                const x = (e.clientX / window.innerWidth - 0.5) * 20;
+                const y = (e.clientY / window.innerHeight - 0.5) * 20;
 
-                    const x = (e.clientX / window.innerWidth - 0.5) * 20;
-                    const y = (e.clientY / window.innerHeight - 0.5) * 20;
-
-                    gsap.to(".orb-1", { x: x, y: y, duration: 2, ease: "power2.out" });
-                    gsap.to(".orb-2", { x: -x, y: -y, duration: 2, ease: "power2.out" });
-                    gsap.to(".orb-3", { x: x * 0.5, y: y * 0.5, duration: 2, ease: "power2.out" });
-                });
-
-            }, 1500);
+                gsap.to(".orb-1", { x: x, y: y, duration: 2, ease: "power2.out" });
+                gsap.to(".orb-2", { x: -x, y: -y, duration: 2, ease: "power2.out" });
+                gsap.to(".orb-3", { x: x * 0.5, y: y * 0.5, duration: 2, ease: "power2.out" });
+            });
 
             // Scroll Reveals...
             gsap.utils.toArray('.glass-card').forEach((card, i) => {
