@@ -178,27 +178,7 @@ document.addEventListener("DOMContentLoaded", () => {
             drawVisualizer();
 
             // --- 2. Background Orbs Animation (Float) ---
-            setTimeout(() => {
-                gsap.to(".orb-1", {
-                    y: "random(-50, 50)",
-                    x: "random(-50, 50)",
-                    duration: "random(10, 20)",
-                    repeat: -1,
-                    yoyo: true,
-                    ease: "sine.inOut"
-                });
-
-                gsap.to(".orb-2", {
-                    y: "random(-30, 30)",
-                    x: "random(-30, 30)",
-                    duration: "random(15, 25)",
-                    repeat: -1,
-                    yoyo: true,
-                    ease: "sine.inOut"
-                });
-            }, 500);
-
-            // --- 3. Hero Content Reveal ---
+            // --- 3. Hero Content Reveal (Priority) ---
             const heroTl = gsap.timeline({ delay: 0.1 });
 
             heroTl
@@ -233,203 +213,229 @@ document.addEventListener("DOMContentLoaded", () => {
                 delay: 0.2,
                 ease: "power2.out"
             });
-        }
 
-        // ... Mouse Parallax ...
-        document.addEventListener("mousemove", (e) => {
-            const x = (e.clientX / window.innerWidth - 0.5) * 20;
-            const y = (e.clientY / window.innerHeight - 0.5) * 20;
+            // --- 2. Background Orbs Animation (Float) ---
+            // DEFER ORBS TO 1.5s (Avoid 1FPS lag at start)
+            setTimeout(() => {
+                gsap.to(".orb-1", {
+                    y: "random(-50, 50)",
+                    x: "random(-50, 50)",
+                    duration: "random(10, 20)",
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut"
+                });
 
-            gsap.to(".orb-1", { x: x, y: y, duration: 2, ease: "power2.out" });
-            gsap.to(".orb-2", { x: -x, y: -y, duration: 2, ease: "power2.out" });
-            gsap.to(".orb-3", { x: x * 0.5, y: y * 0.5, duration: 2, ease: "power2.out" });
-        });
+                gsap.to(".orb-2", {
+                    y: "random(-30, 30)",
+                    x: "random(-30, 30)",
+                    duration: "random(15, 25)",
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut"
+                });
 
-        // Scroll Reveals...
-        gsap.utils.toArray('.glass-card').forEach((card, i) => {
-            gsap.from(card, {
+                // --- 4. START INTERACTIVITY LATER ---
+                // Only add mouse listener after animations are done (3s delay)
+                document.addEventListener("mousemove", (e) => {
+                    // Simple throttle
+                    if (Date.now() % 2 !== 0) return;
+
+                    const x = (e.clientX / window.innerWidth - 0.5) * 20;
+                    const y = (e.clientY / window.innerHeight - 0.5) * 20;
+
+                    gsap.to(".orb-1", { x: x, y: y, duration: 2, ease: "power2.out" });
+                    gsap.to(".orb-2", { x: -x, y: -y, duration: 2, ease: "power2.out" });
+                    gsap.to(".orb-3", { x: x * 0.5, y: y * 0.5, duration: 2, ease: "power2.out" });
+                });
+
+            }, 1500);
+
+            // Scroll Reveals...
+            gsap.utils.toArray('.glass-card').forEach((card, i) => {
+                gsap.from(card, {
+                    scrollTrigger: {
+                        trigger: card,
+                        start: "top 90%",
+                        end: "bottom 10%",
+                        toggleActions: "play none none reverse",
+                    },
+                    y: 50,
+                    scale: 0.9,
+                    rotationX: 0,
+                    opacity: 0,
+                    duration: 1,
+                    ease: "power3.out",
+                });
+            });
+
+            // Gallery ...
+            gsap.from(".gallery-item", {
                 scrollTrigger: {
-                    trigger: card,
-                    start: "top 90%",
-                    end: "bottom 10%",
+                    trigger: ".gallery-grid",
+                    start: "top 85%",
+                    end: "bottom 15%",
                     toggleActions: "play none none reverse",
                 },
                 y: 50,
-                scale: 0.9,
-                rotationX: 0,
-                opacity: 0,
-                duration: 1,
-                ease: "power3.out",
-            });
-        });
-
-        // Gallery ...
-        gsap.from(".gallery-item", {
-            scrollTrigger: {
-                trigger: ".gallery-grid",
-                start: "top 85%",
-                end: "bottom 15%",
-                toggleActions: "play none none reverse",
-            },
-            y: 50,
-            scale: 0.95,
-            opacity: 0,
-            duration: 0.8,
-            stagger: 0.1,
-            ease: "power2.out",
-        });
-
-        // Contact Section ...
-        const contactTl = gsap.timeline({
-            scrollTrigger: {
-                trigger: "#contact",
-                start: "top 85%",
-                end: "bottom 20%",
-                toggleActions: "play none none reverse",
-            }
-        });
-
-        contactTl.from("#contact h2", {
-            y: 30,
-            opacity: 0,
-            duration: 0.6,
-            ease: "back.out(1.5)"
-        })
-            .from(".contact-container", {
-                scale: 0.9,
+                scale: 0.95,
                 opacity: 0,
                 duration: 0.8,
-                ease: "power3.out"
-            }, "-=0.4");
+                stagger: 0.1,
+                ease: "power2.out",
+            });
+
+            // Contact Section ...
+            const contactTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: "#contact",
+                    start: "top 85%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse",
+                }
+            });
+
+            contactTl.from("#contact h2", {
+                y: 30,
+                opacity: 0,
+                duration: 0.6,
+                ease: "back.out(1.5)"
+            })
+                .from(".contact-container", {
+                    scale: 0.9,
+                    opacity: 0,
+                    duration: 0.8,
+                    ease: "power3.out"
+                }, "-=0.4");
 
 
-        // --- Smart Navbar ---
-        const nav = document.querySelector('.nav-wrapper');
-        let lastScrollTop = 0;
+            // --- Smart Navbar ---
+            const nav = document.querySelector('.nav-wrapper');
+            let lastScrollTop = 0;
 
-        ScrollTrigger.create({
-            trigger: "body",
-            start: "top top",
-            end: "bottom bottom",
-            onUpdate: (self) => {
-                const scrollTop = self.scroll();
-                const direction = self.direction;
-                if (scrollTop > 100) {
-                    if (direction === 1) {
-                        gsap.to(nav, { yPercent: -150, duration: 0.5, ease: "power2.out", overwrite: true });
+            ScrollTrigger.create({
+                trigger: "body",
+                start: "top top",
+                end: "bottom bottom",
+                onUpdate: (self) => {
+                    const scrollTop = self.scroll();
+                    const direction = self.direction;
+                    if (scrollTop > 100) {
+                        if (direction === 1) {
+                            gsap.to(nav, { yPercent: -150, duration: 0.5, ease: "power2.out", overwrite: true });
+                        } else {
+                            gsap.to(nav, { yPercent: 0, duration: 0.5, ease: "power2.out", overwrite: true });
+                        }
                     } else {
                         gsap.to(nav, { yPercent: 0, duration: 0.5, ease: "power2.out", overwrite: true });
                     }
-                } else {
-                    gsap.to(nav, { yPercent: 0, duration: 0.5, ease: "power2.out", overwrite: true });
                 }
-            }
-        });
-    }
-
-    // --- Premium Features Implementation ---
-
-    // 1. Audio Visualizer (Optimized Loop)
-    const canvas = document.getElementById('audio-visualizer');
-    if (canvas) {
-        const ctx = canvas.getContext('2d');
-        let width, height;
-
-        function resizeCanvas() {
-            const newWidth = window.innerWidth;
-            const newHeight = 150;
-            if (canvas.width !== newWidth || canvas.height !== newHeight) {
-                width = canvas.width = newWidth;
-                height = canvas.height = newHeight;
-            }
-        }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-
-        const bars = 60;
-        let currentHeights = new Array(bars).fill(0);
-        let targetHeights = new Array(bars).fill(0);
-
-        function drawVisualizer() {
-            if (!isVisualizerActive) return;
-
-            ctx.clearRect(0, 0, width, height);
-            const barWidth = width / bars;
-
-            ctx.fillStyle = 'rgba(79, 172, 254, 0.6)';
-
-            for (let i = 0; i < bars; i++) {
-                currentHeights[i] += (targetHeights[i] - currentHeights[i]) * 0.08;
-
-                if (Math.random() < 0.03) {
-                    targetHeights[i] = Math.random() * 100 + 20;
-                }
-
-                targetHeights[i] -= 1;
-                if (targetHeights[i] < 0) targetHeights[i] = 0;
-
-                const x = i * barWidth;
-                const h = currentHeights[i];
-                ctx.fillRect(x, height - h, barWidth - 4, h);
-            }
-            requestAnimationFrame(drawVisualizer);
-        }
-    }
-
-    // 2. Spotlight & Magnets
-    const cursor = document.querySelector('.cursor-spotlight');
-    const magnets = document.querySelectorAll('.btn-pill');
-
-    document.addEventListener('mousemove', (e) => {
-        if (cursor) {
-            gsap.to(cursor, {
-                x: e.clientX,
-                y: e.clientY,
-                duration: 0.1,
-                autoAlpha: 1,
-                overwrite: "auto"
             });
         }
 
-        magnets.forEach(btn => {
-            const rect = btn.getBoundingClientRect();
-            const distance = Math.hypot(e.clientX - (rect.left + rect.width / 2), e.clientY - (rect.top + rect.height / 2));
+        // --- Premium Features Implementation ---
 
-            if (distance < 100) {
-                gsap.to(btn, {
-                    x: (e.clientX - (rect.left + rect.width / 2)) / 3,
-                    y: (e.clientY - (rect.top + rect.height / 2)) / 3,
-                    duration: 0.3
+        // 1. Audio Visualizer (Optimized Loop)
+        const canvas = document.getElementById('audio-visualizer');
+        if (canvas) {
+            const ctx = canvas.getContext('2d');
+            let width, height;
+
+            function resizeCanvas() {
+                const newWidth = window.innerWidth;
+                const newHeight = 150;
+                if (canvas.width !== newWidth || canvas.height !== newHeight) {
+                    width = canvas.width = newWidth;
+                    height = canvas.height = newHeight;
+                }
+            }
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+
+            const bars = 60;
+            let currentHeights = new Array(bars).fill(0);
+            let targetHeights = new Array(bars).fill(0);
+
+            function drawVisualizer() {
+                if (!isVisualizerActive) return;
+
+                ctx.clearRect(0, 0, width, height);
+                const barWidth = width / bars;
+
+                ctx.fillStyle = 'rgba(79, 172, 254, 0.6)';
+
+                for (let i = 0; i < bars; i++) {
+                    currentHeights[i] += (targetHeights[i] - currentHeights[i]) * 0.08;
+
+                    if (Math.random() < 0.03) {
+                        targetHeights[i] = Math.random() * 100 + 20;
+                    }
+
+                    targetHeights[i] -= 1;
+                    if (targetHeights[i] < 0) targetHeights[i] = 0;
+
+                    const x = i * barWidth;
+                    const h = currentHeights[i];
+                    ctx.fillRect(x, height - h, barWidth - 4, h);
+                }
+                requestAnimationFrame(drawVisualizer);
+            }
+        }
+
+        // 2. Spotlight & Magnets
+        const cursor = document.querySelector('.cursor-spotlight');
+        const magnets = document.querySelectorAll('.btn-pill');
+
+        document.addEventListener('mousemove', (e) => {
+            if (cursor) {
+                gsap.to(cursor, {
+                    x: e.clientX,
+                    y: e.clientY,
+                    duration: 0.1,
+                    autoAlpha: 1,
+                    overwrite: "auto"
                 });
-            } else {
-                gsap.to(btn, { x: 0, y: 0, duration: 0.3 });
             }
-        });
-    });
 
-    // 4. Parallax
-    const galleryItems = document.querySelectorAll('.gallery-item');
-    galleryItems.forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
+            magnets.forEach(btn => {
+                const rect = btn.getBoundingClientRect();
+                const distance = Math.hypot(e.clientX - (rect.left + rect.width / 2), e.clientY - (rect.top + rect.height / 2));
 
-            const rotateX = ((y - centerY) / centerY) * -10;
-            const rotateY = ((x - centerX) / centerX) * 10;
-
-            gsap.to(card, {
-                rotateX: rotateX,
-                rotateY: rotateY,
-                transformPerspective: 1000,
-                duration: 0.5
+                if (distance < 100) {
+                    gsap.to(btn, {
+                        x: (e.clientX - (rect.left + rect.width / 2)) / 3,
+                        y: (e.clientY - (rect.top + rect.height / 2)) / 3,
+                        duration: 0.3
+                    });
+                } else {
+                    gsap.to(btn, { x: 0, y: 0, duration: 0.3 });
+                }
             });
         });
 
-        card.addEventListener('mouseleave', () => {
-            gsap.to(card, { rotateX: 0, rotateY: 0, duration: 0.5 });
+        // 4. Parallax
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        galleryItems.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+
+                const rotateX = ((y - centerY) / centerY) * -10;
+                const rotateY = ((x - centerX) / centerX) * 10;
+
+                gsap.to(card, {
+                    rotateX: rotateX,
+                    rotateY: rotateY,
+                    transformPerspective: 1000,
+                    duration: 0.5
+                });
+            });
+
+            card.addEventListener('mouseleave', () => {
+                gsap.to(card, { rotateX: 0, rotateY: 0, duration: 0.5 });
+            });
         });
     });
-});
