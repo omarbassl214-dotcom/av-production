@@ -1,0 +1,179 @@
+/* FIX: Specific selector to override desktop 5rem */
+.hero-box h1,
+h1 {
+    font-size: 2.2rem !important;
+    word-wrap: break-word;
+}
+
+/* Updated for Concept 3 (Hologram) & Concept 2 (Fog) support */
+.splash-text,
+.splash-text-glitch {
+    font-size: 1.8rem !important;
+    /* Force smaller size */
+    width: 90%;
+    margin: 0 auto;
+    letter-spacing: 2px !important;
+    /* Reduce spacing from 15px/5px */
+    white-space: normal;
+    /* Allow wrapping if needed */
+    text-align: center;
+    left: auto;
+    transform: none;
+    /* Reset transform if conflicts exist */
+}
+
+/* Center the glitch text specifically since it might rely on flexbox */
+#splash-screen .splash-text-glitch {
+    width: 100%;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+
+.nav-links {
+    display: none;
+}
+
+.nav-pill {
+    padding: 10px 15px;
+}
+
+/* 2x2 Grid for Mobile - Forced */
+.gallery-grid,
+.cards-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px;
+    padding: 0 5px;
+    box-sizing: border-box;
+}
+
+.glass-card {
+    width: 100%;
+    padding: 15px;
+    min-height: auto;
+}
+
+.gallery-item {
+    width: 100%;
+    aspect-ratio: 1/1;
+}
+
+.card-title {
+    font-size: 1rem !important;
+    margin-bottom: 5px;
+    line-height: 1.2;
+}
+
+/* Keep grid clean on mobile */
+.card-content p {
+    display: none;
+}
+
+.hero-buttons {
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 10px;
+}
+
+.btn-pill {
+    flex: 1 1 40%;
+    min-width: 100px;
+    /* Allow smaller buttons */
+    padding: 12px 10px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+}
+
+.section-padding {
+    padding: 50px 15px;
+}
+
+.spotlight-source,
+.spotlight-beam {
+    max-width: 100%;
+}
+
+/* FIX: Override Inline Styles for Form Inputs to prevent cutoff */
+.contact-container div[style] {
+    grid-template-columns: 1fr !important;
+    /* Stack inputs vertically */
+    gap: 10px !important;
+}
+
+.orb-1 {
+    top: 10%;
+    left: -20px;
+    width: 200px;
+    height: 200px;
+    opacity: 0.6;
+}
+
+.orb-2 {
+    bottom: 10%;
+    right: -20px;
+    width: 180px;
+    height: 180px;
+    opacity: 0.6;
+}
+
+/* FIX: Audio Visualizer sticking to bottom on mobile */
+/* FIX: Audio Visualizer sticking to bottom on mobile */
+#audio-visualizer {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100px !important;
+    /* Smaller on mobile */
+    z-index: 9999 !important;
+    /* Ensure it's on top */
+    pointer-events: none;
+    opacity: 0;
+    /* Hidden initially */
+    transform: none !important;
+    /* FORCE OFF hardware acceleration to allow reflow */
+    -webkit-transform: none !important;
+}
+
+/* COMPACT CONTACT SECTION (Mobile Fix) */
+#contact {
+    padding-top: 20px !important;
+    padding-bottom: 120px !important;
+    /* Ensure space for visualizer so button isn't covered */
+}
+
+.contact-container {
+    padding: 20px 15px !important;
+    max-width: 100%;
+}
+
+/* Shrink Inputs & Labels */
+.form-input {
+    padding: 10px 12px !important;
+    /* Compact padding */
+    font-size: 0.9rem !important;
+    height: auto !important;
+    margin-bottom: 8px !important;
+    /* Reduce gap */
+}
+
+/* Override inline margins */
+#contact input[style],
+#contact button[style],
+#contact div[style] {
+    margin-top: 8px !important;
+    gap: 8px !important;
+}
+
+/* Force Textarea smaller */
+textarea.form-input {
+    height: 80px !important;
+    /* Reduce from default rows=4 */
+}
+
+/* Make button compact */
+#contact button[type="submit"] {
+    margin-top: 15px !important;
+    padding: 12px !important;
+}
