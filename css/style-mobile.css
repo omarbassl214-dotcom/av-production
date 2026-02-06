@@ -142,28 +142,7 @@ h1 {
     /* Extra space for Visualizer + Safe Area */
 }
 
-/* FIX: Disable Glitch Animation on Mobile (Prevents GPU Freeze) */
-.splash-text-glitch::before,
-.splash-text-glitch::after {
-    animation: none !important;
-    display: none !important;
-}
-
-.splash-text-glitch {
-    animation: none !important;
-    opacity: 1 !important;
-}
-
-/* FIX: Kill Background Orbs/Effects to stop GPU Crash (v35) */
-.orb-1,
-.orb-2,
-.holo-beam,
-.spotlight-beam,
-.spotlight-source {
-    display: none !important;
-    /* Pure Black Background for Speed */
-    filter: none !important;
-}
+/* (Performance blocks removed - Glitch and Orbs ENABLED again) */
 
 .contact-container {
     padding: 20px 15px !important;
