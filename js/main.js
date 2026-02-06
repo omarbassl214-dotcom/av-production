@@ -232,7 +232,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 ease: "power2.out"
             });
 
-            // 4. Mouse Parallax (Orbs)
+            // 4. Mouse Parallax (Global - Orbs Only)
             document.addEventListener("mousemove", (e) => {
                 const x = (e.clientX / window.innerWidth - 0.5) * 20;
                 const y = (e.clientY / window.innerHeight - 0.5) * 20;
@@ -374,8 +374,8 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
 
-        // 2. Spotlight & Magnets (DESKTOP ONLY)
-        if (window.innerWidth > 1024) {
+        // 2. Spotlight & Magnets (DESKTOP ONLY - Wider than 768px)
+        if (window.innerWidth > 768) {
             const cursor = document.querySelector('.cursor-spotlight');
             const magnets = document.querySelectorAll('.btn-pill');
 
@@ -406,7 +406,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
             });
 
-            // 4. Parallax (3D Tilt)
+            // 4. Parallax (3D Tilt - DESKTOP ONLY)
             const galleryItems = document.querySelectorAll('.gallery-item');
             galleryItems.forEach(card => {
                 card.addEventListener('mousemove', (e) => {
@@ -432,5 +432,5 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
             });
         }
-
-    });
+    } // End GSAP Check
+}); // End DOMContentLoaded
