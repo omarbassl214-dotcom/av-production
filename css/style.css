@@ -874,13 +874,32 @@ spline-viewer {
     }
 
     .gallery-grid {
-        grid-template-columns: 1fr;
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        gap: 20px;
+        padding-bottom: 20px;
+        -webkit-overflow-scrolling: touch;
+        width: 100vw;
+        margin-left: -20px;
+        padding-left: 20px;
+        padding-right: 20px;
+        scrollbar-width: none;
+    }
+
+    .gallery-grid::-webkit-scrollbar {
+        display: none;
     }
 
     .gallery-item.large,
     .gallery-item.small {
-        grid-column: span 1;
-        height: 300px;
+        min-width: 85vw;
+        height: 60vh;
+        /* Taller for cinematic feel */
+        scroll-snap-align: center;
+        margin-right: 10px;
+        grid-column: auto;
+        /* Reset grid column */
     }
 
     .navbar {
