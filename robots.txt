@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://omarbasl214-dotcom.github.io/sitemap.xml
