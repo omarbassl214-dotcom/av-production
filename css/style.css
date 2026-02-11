@@ -329,19 +329,17 @@ spline-viewer {
 }
 
 .center-hero h1 {
-    font-size: 5rem;
+    font-size: clamp(3rem, 8vw, 6rem);
     font-weight: 800;
     margin: 0;
     letter-spacing: -2px;
     animation: spline-color-shift 8s ease-in-out infinite;
+    /* Mirror Reflection Style */
+    -webkit-box-reflect: below -15px linear-gradient(transparent, rgba(255, 255, 255, 0.15));
+    position: relative;
+    z-index: 2;
 }
 
-.hero-subtitle {
-    color: grey;
-    font-size: 1rem;
-    margin-top: 10px;
-    letter-spacing: 2px;
-}
 
 /* Sections */
 .section {
@@ -823,8 +821,11 @@ spline-viewer {
     cursor: pointer;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
+    body {
+        background-attachment: fixed;
+    }
+
     .center-hero h1 {
         font-size: 3rem;
     }
@@ -861,6 +862,7 @@ spline-viewer {
     .glass-card {
         min-width: 80vw;
         scroll-snap-align: center;
+        scroll-snap-stop: always;
         margin-right: 20px;
         transform: none !important;
         box-shadow: none !important;
@@ -903,6 +905,7 @@ spline-viewer {
         min-width: 80vw;
         height: 60vh;
         scroll-snap-align: center;
+        scroll-snap-stop: always;
         margin-right: 20px;
         grid-column: auto;
     }
