@@ -151,6 +151,11 @@ spline-viewer {
     /* Kill touch interaction hint */
 }
 
+/* Scroll Hints - Hidden on Desktop */
+.scroll-hint-overlay {
+    display: none;
+}
+
 
 
 /* Scroll Progress Line */
@@ -855,14 +860,17 @@ spline-viewer {
     }
 
     .glass-card {
-        min-width: 85vw;
+        min-width: 80vw;
         scroll-snap-align: center;
-        margin-right: 10px;
+        margin-right: 20px;
         transform: none !important;
-        /* Kill 3D tilt */
         box-shadow: none !important;
-        /* Kill lift shadow */
         transition: none !important;
+        position: relative;
+    }
+
+    .glass-card:last-child {
+        margin-right: 0;
     }
 
     .glass-card:hover,
@@ -893,13 +901,15 @@ spline-viewer {
 
     .gallery-item.large,
     .gallery-item.small {
-        min-width: 85vw;
+        min-width: 80vw;
         height: 60vh;
-        /* Taller for cinematic feel */
         scroll-snap-align: center;
-        margin-right: 10px;
+        margin-right: 20px;
         grid-column: auto;
-        /* Reset grid column */
+    }
+
+    .gallery-item:last-child {
+        margin-right: 0;
     }
 
     .navbar {
@@ -929,5 +939,34 @@ spline-viewer {
     .nav-links a {
         font-size: 0.65rem;
         letter-spacing: 0.5px;
+    }
+
+    /* Scroll Hint Animation */
+    @keyframes bounce-right {
+
+        0%,
+        100% {
+            transform: translateY(-50%) translateX(0);
+        }
+
+        50% {
+            transform: translateY(-50%) translateX(10px);
+        }
+    }
+
+    .scroll-hint-overlay {
+        display: block;
+        /* Show on mobile */
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 2.5rem;
+        color: rgba(255, 255, 255, 0.6);
+        pointer-events: none;
+        animation: bounce-right 1.5s ease-in-out infinite;
+        z-index: 100;
+        text-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
+        transition: opacity 0.5s ease;
     }
 }
