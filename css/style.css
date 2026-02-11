@@ -848,6 +848,12 @@ spline-viewer {
         /* Chrome/Safari */
     }
 
+    .glass-card svg {
+        width: 40px;
+        height: 40px;
+        margin-bottom: 15px;
+    }
+
     .glass-card {
         min-width: 85vw;
         scroll-snap-align: center;
@@ -856,6 +862,7 @@ spline-viewer {
         /* Kill 3D tilt */
         box-shadow: none !important;
         /* Kill lift shadow */
+        transition: none !important;
     }
 
     .glass-card:hover,
