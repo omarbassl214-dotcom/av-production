@@ -543,12 +543,23 @@ spline-viewer {
 
 @media (max-width: 768px) {
     .stats-grid {
-        grid-template-columns: 1fr;
-        gap: 60px;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 5px;
+        padding: 0 10px;
     }
 
     .stat-number {
-        font-size: 3rem;
+        font-size: 1.5rem;
+    }
+
+    .stat-plus {
+        font-size: 1rem;
+    }
+
+    .stat-label {
+        font-size: 0.55rem;
+        margin-top: 5px;
+        letter-spacing: 0.05em;
     }
 }
 
