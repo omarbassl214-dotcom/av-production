@@ -852,6 +852,18 @@ spline-viewer {
         min-width: 85vw;
         scroll-snap-align: center;
         margin-right: 10px;
+        transform: none !important;
+        /* Kill 3D tilt */
+        box-shadow: none !important;
+        /* Kill lift shadow */
+    }
+
+    .glass-card:hover,
+    .glass-card:active {
+        transform: none !important;
+        background: rgba(255, 255, 255, 0.1);
+        /* Keep original background */
+        border-color: rgba(255, 255, 255, 0.2);
     }
 
     .gallery-grid {
