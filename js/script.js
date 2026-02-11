@@ -215,4 +215,16 @@ document.addEventListener('DOMContentLoaded', () => {
             if (++attempts > 10) clearInterval(interval);
         }, 1000);
     }
+
+    // Hide Scroll Hints on Interaction
+    const sliderContainers = document.querySelectorAll('.services-grid, .gallery-grid');
+    sliderContainers.forEach(container => {
+        container.addEventListener('scroll', () => {
+            const hint = container.parentElement.querySelector('.scroll-hint-overlay');
+            if (hint && container.scrollLeft > 20) {
+                hint.style.opacity = '0';
+                setTimeout(() => hint.remove(), 500);
+            }
+        }, { once: true });
+    });
 });
