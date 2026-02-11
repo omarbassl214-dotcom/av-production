@@ -841,16 +841,15 @@ spline-viewer {
         padding-bottom: 20px;
         -webkit-overflow-scrolling: touch;
         width: 100vw;
-        margin-left: -20px;
-        padding-left: 20px;
-        padding-right: 20px;
+        margin-left: calc(-50vw + 50%);
+        padding-left: 10vw;
+        padding-right: 10vw;
+        box-sizing: border-box;
         scrollbar-width: none;
-        /* Firefox */
     }
 
     .services-grid::-webkit-scrollbar {
         display: none;
-        /* Chrome/Safari */
     }
 
     .glass-card svg {
@@ -877,7 +876,6 @@ spline-viewer {
     .glass-card:active {
         transform: none !important;
         background: rgba(255, 255, 255, 0.1);
-        /* Keep original background */
         border-color: rgba(255, 255, 255, 0.2);
     }
 
@@ -889,9 +887,10 @@ spline-viewer {
         padding-bottom: 20px;
         -webkit-overflow-scrolling: touch;
         width: 100vw;
-        margin-left: -20px;
-        padding-left: 20px;
-        padding-right: 20px;
+        margin-left: calc(-50vw + 50%);
+        padding-left: 10vw;
+        padding-right: 10vw;
+        box-sizing: border-box;
         scrollbar-width: none;
     }
 
@@ -956,7 +955,6 @@ spline-viewer {
 
     .scroll-hint-overlay {
         display: block;
-        /* Show on mobile */
         position: absolute;
         right: 15px;
         top: 50%;
@@ -998,7 +996,7 @@ spline-viewer {
         margin-bottom: 5px;
     }
 
-    .form-group input, 
+    .form-group input,
     .form-group select {
         padding: 10px;
         font-size: 0.9rem;
