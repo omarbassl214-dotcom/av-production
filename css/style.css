@@ -511,6 +511,13 @@ spline-viewer {
     align-items: center;
 }
 
+.stat-value-wrap {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    line-height: 1;
+}
+
 .stat-number {
     font-size: 4rem;
     font-weight: 900;
