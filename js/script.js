@@ -16,13 +16,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
+            // Mobile Slider Fix: Force visible immediately
+            if (window.innerWidth <= 768 && (
+                entry.target.classList.contains('glass-card') ||
+                entry.target.classList.contains('gallery-item')
+            )) {
+                entry.target.classList.add('visible');
+                entry.target.style.transitionDelay = "0s";
+                return;
+            }
+
             if (entry.isIntersecting) {
                 const delay = entry.target.dataset.delay || "0s";
                 entry.target.style.transitionDelay = delay;
                 entry.target.classList.add('visible');
             } else {
-                entry.target.classList.remove('visible');
-                entry.target.style.transitionDelay = "0s";
+                // Keep visible once revealed to prevent flickering
+                // entry.target.classList.remove('visible'); 
             }
         });
     }, observerOptions);
