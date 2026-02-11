@@ -969,4 +969,51 @@ spline-viewer {
         text-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
         transition: opacity 0.5s ease;
     }
+
+    /* Modal Mobile Refinement */
+    .modal-content {
+        padding: 25px 20px;
+        width: 92%;
+        margin: auto;
+        max-height: 85vh;
+        overflow-y: auto;
+    }
+
+    .modal-content h2 {
+        font-size: 1.6rem;
+        margin-bottom: 8px;
+    }
+
+    .modal-content p {
+        font-size: 0.85rem;
+        margin-bottom: 15px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        font-size: 0.75rem;
+        margin-bottom: 5px;
+    }
+
+    .form-group input, 
+    .form-group select {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+
+    .checkbox-group {
+        gap: 8px;
+    }
+
+    .checkbox-group label {
+        font-size: 0.85rem !important;
+    }
+
+    .cta-button {
+        padding: 12px 25px;
+        font-size: 0.9rem;
+    }
 }
