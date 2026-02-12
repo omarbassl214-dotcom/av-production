@@ -83,10 +83,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const currentScrollY = window.pageYOffset || document.documentElement.scrollTop;
         const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
 
-        // Update Scroll Progress Bar
-        if (scrollProgress && scrollHeight > 0) {
+        // Update Scroll Progress Bar & 3D Parallax
+        if (scrollHeight > 0) {
             const progress = (currentScrollY / scrollHeight) * 100;
-            scrollProgress.style.width = `${progress}%`;
+            if (scrollProgress) scrollProgress.style.width = `${progress}%`;
+
+            // 3D Camera Follow (Pseudo-zoom)
+            const splineContainer = document.querySelector('.spline-bg-container');
+            if (splineContainer) {
+                const zoomFactor = 1 + (currentScrollY / scrollHeight) * 0.45; // Increased intensity
+                const rotation = (currentScrollY / scrollHeight) * 5; // Add subtle rotate
+                const translateY = (currentScrollY / scrollHeight) * 80; // Deeper sink
+                splineContainer.style.transform = `scale(${zoomFactor}) translateY(${translateY}px) rotateZ(${rotation}deg)`;
+            }
         }
 
         // Navbar Logic
@@ -226,5 +235,53 @@ document.addEventListener('DOMContentLoaded', () => {
                 setTimeout(() => hint.remove(), 500);
             }
         }, { once: true });
+    });
+
+    // --- Luxury Smooth Scroll Engine ---
+    const smoothScrollTo = (targetY, duration) => {
+        const startY = window.pageYOffset;
+        const difference = targetY - startY;
+        const startTime = performance.now();
+
+        const easing = (t) => {
+            // Cubic ease-in-out for a physical, premium feel
+            return t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
+        };
+
+        const step = (currentTime) => {
+            const progress = Math.min((currentTime - startTime) / duration, 1);
+            window.scrollTo(0, startY + difference * easing(progress));
+
+            if (progress < 1) {
+                requestAnimationFrame(step);
+            }
+        };
+
+        requestAnimationFrame(step);
+    };
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                e.preventDefault();
+
+                // Get target position with a bit of offset for the fixed navbar if needed
+                // Currently navbar hides on scroll, but let's assume a 20px buffer for aesthetics
+                const targetY = targetElement.getBoundingClientRect().top + window.pageYOffset - 20;
+
+                // 1.5 seconds for a "Luxury Slow" glide
+                smoothScrollTo(targetY, 1500);
+
+                // Close mobile menu if open (assuming a class like 'active' on nav-links)
+                const navLinks = document.querySelector('.nav-links');
+                if (navLinks && navLinks.classList.contains('active')) {
+                    navLinks.classList.remove('active');
+                }
+            }
+        });
     });
 });
