@@ -168,10 +168,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const eventDate = document.getElementById('event-date').value;
             const interests = Array.from(document.querySelectorAll('input[name="interest"]:checked')).map(cb => cb.value);
             const crowdSize = document.getElementById('crowd-size').value;
+            const eventLocation = document.getElementById('event-location').value;
 
-            const message = `*New Inquiry for AV Production*%0A%0A` +
+            const message = `*New Inquiry for AV PRODUCTION*%0A%0A` +
                 `*Event Type:* ${eventType}%0A` +
                 `*Event Date:* ${eventDate}%0A` +
+                `*Location:* ${eventLocation}%0A` +
                 `*Interested In:* ${interests.join(', ')}%0A` +
                 `*Crowd Size:* ${crowdSize}`;
 
