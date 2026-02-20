@@ -87,15 +87,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (scrollHeight > 0) {
             const progress = (currentScrollY / scrollHeight) * 100;
             if (scrollProgress) scrollProgress.style.width = `${progress}%`;
-
-            // 3D Camera Follow (Pseudo-zoom)
-            const splineContainer = document.querySelector('.spline-bg-container');
-            if (splineContainer) {
-                const zoomFactor = 1 + (currentScrollY / scrollHeight) * 0.45; // Increased intensity
-                const rotation = (currentScrollY / scrollHeight) * 5; // Add subtle rotate
-                const translateY = (currentScrollY / scrollHeight) * 80; // Deeper sink
-                splineContainer.style.transform = `scale(${zoomFactor}) translateY(${translateY}px) rotateZ(${rotation}deg)`;
-            }
         }
 
         // Navbar Logic
