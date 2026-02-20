@@ -542,11 +542,19 @@ spline-viewer {
     line-height: 1;
 }
 
-.stat-number {
+.stat-number,
+.static-stat-text {
     font-size: 4rem;
     font-weight: 900;
     color: #fff;
     line-height: 1;
+}
+
+.static-stat-text {
+    background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .stat-plus {
@@ -572,7 +580,8 @@ spline-viewer {
         padding: 0 10px;
     }
 
-    .stat-number {
+    .stat-number,
+    .static-stat-text {
         font-size: 1.5rem;
     }
 
