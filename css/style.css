@@ -945,9 +945,9 @@ spline-viewer {
     }
 
     .navbar {
-        width: 85%;
-        padding: 10px 15px;
-        gap: 12px;
+        width: 92%;
+        padding: 10px 12px;
+        gap: 8px;
         top: 20px;
     }
 
@@ -965,12 +965,13 @@ spline-viewer {
     }
 
     .nav-links {
-        gap: 12px;
+        gap: 8px;
     }
 
     .nav-links a {
         font-size: 0.65rem;
         letter-spacing: 0.5px;
+        white-space: nowrap;
     }
 
     /* Scroll Hint Animation */
