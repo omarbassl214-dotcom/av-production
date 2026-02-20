@@ -261,38 +261,44 @@
       <span class="close-button">&times;</span>
       <h2>Start Your Inquiry</h2>
       <p>Fill in the basics and we'll draft your WhatsApp message.</p>
-      <form id="booking-form">
+      <form id="booking-form" action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE">
+        <input type="hidden" name="subject" value="New Inquiry from AV Production Website">
+        <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+
         <div class="form-group">
           <label>Event Type</label>
-          <select id="event-type" required>
-            <option value="" disabled selected>Select event type</option>
-            <option value="Wedding">Wedding</option>
-            <option value="Corporate">Corporate</option>
-            <option value="Concert">Concert/Festival</option>
-            <option value="Private">Private Party</option>
-          </select>
+          <div class="custom-select">
+            <select id="event-type" name="event_type" required>
+              <option value="" disabled selected>Select event type</option>
+              <option value="Wedding">Wedding</option>
+              <option value="Corporate">Corporate</option>
+              <option value="Concert">Concert/Festival</option>
+              <option value="Private">Private Party</option>
+            </select>
+          </div>
         </div>
         <div class="form-group">
           <label>Event Date</label>
-          <input type="date" id="event-date" required>
+          <input type="date" id="event-date" name="event_date" required>
         </div>
         <div class="form-group">
           <label>Interested In</label>
           <div class="checkbox-group">
-            <label><input type="checkbox" name="interest" value="Lighting"> Lighting</label>
-            <label><input type="checkbox" name="interest" value="Sound"> Pro Audio</label>
-            <label><input type="checkbox" name="interest" value="Visuals"> LED & FX</label>
+            <label><input type="checkbox" name="interests[]" value="Lighting"> Lighting</label>
+            <label><input type="checkbox" name="interests[]" value="Pro Audio"> Pro Audio</label>
+            <label><input type="checkbox" name="interests[]" value="LED & FX"> LED & FX</label>
           </div>
         </div>
         <div class="form-group">
           <label>Event Location</label>
-          <input type="text" id="event-location" placeholder="e.g. Amman, Dead Sea, etc." required>
+          <input type="text" id="event-location" name="location" placeholder="e.g. Amman, Dead Sea, etc." required>
         </div>
         <div class="form-group">
           <label>Estimated Crowd</label>
-          <input type="text" id="crowd-size" placeholder="e.g. 300-500 people">
+          <input type="text" id="crowd-size" name="crowd_size" placeholder="e.g. 300-500 people">
         </div>
-        <button type="submit" class="cta-button" style="width: 100%; margin-top: 20px;">Send to WhatsApp</button>
+        <button type="submit" class="cta-button" style="width: 100%; margin-top: 20px;">Send Inquiry</button>
       </form>
       <div class="success-message" style="display: none; text-align: center; padding: 20px;">
         <h3 style="color: #fff; margin-bottom: 10px;">Thank You!</h3>

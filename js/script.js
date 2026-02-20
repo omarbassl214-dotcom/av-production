@@ -164,68 +164,97 @@ document.addEventListener('DOMContentLoaded', () => {
     if (bookingForm) {
         bookingForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            const eventType = document.getElementById('event-type').value;
-            const eventDate = document.getElementById('event-date').value;
-            const interests = Array.from(document.querySelectorAll('input[name="interest"]:checked')).map(cb => cb.value);
-            const crowdSize = document.getElementById('crowd-size').value;
-            const eventLocation = document.getElementById('event-location').value;
 
-            const message = `*New Inquiry for AV PRODUCTION*%0A%0A` +
-                `*Event Type:* ${eventType}%0A` +
-                `*Event Date:* ${eventDate}%0A` +
-                `*Location:* ${eventLocation}%0A` +
-                `*Interested In:* ${interests.join(', ')}%0A` +
-                `*Crowd Size:* ${crowdSize}`;
-
-            window.open(`https://wa.me/962796223983?text=${message}`, '_blank');
-
-            // EmailJS check
-            if (window.emailjs) {
-                window.emailjs.send("service_default", "template_default", {
-                    event_type: eventType,
-                    event_date: eventDate,
-                    interests: interests.join(', '),
-                    crowd_size: crowdSize
-                });
-            }
-
-            // Outro Message Logic
             const form = document.getElementById('booking-form');
             const successMsg = document.querySelector('.success-message');
             const modalHeader = document.querySelector('.modal-content h2');
             const modalDesc = document.querySelector('.modal-content p');
+            const submitButton = form.querySelector('button[type="submit"]');
 
-            if (form) form.style.display = 'none';
-            if (modalHeader) modalHeader.style.display = 'none';
-            if (modalDesc) modalDesc.style.display = 'none';
-
-            if (successMsg) {
-                successMsg.style.display = 'block';
-                // Reset form for next time after a delay
-                setTimeout(() => {
-                    closeModal();
-                    // Optional: Reset UI after closing so it's ready for next click
-                    setTimeout(() => {
-                        form.style.display = 'block';
-                        modalHeader.style.display = 'block';
-                        modalDesc.style.display = 'block';
-                        successMsg.style.display = 'none';
-                        form.reset();
-                    }, 500);
-                }, 3000);
-            } else {
-                closeModal();
+            // Basic Validation
+            const formData = new FormData(form);
+            if (!formData.get('event_type') || !formData.get('location')) {
+                alert('Please fill in the required fields (Event Type & Location).');
+                return;
             }
+
+            // Disable button to prevent double submit
+            submitButton.innerHTML = 'Sending...';
+            submitButton.disabled = true;
+
+            fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                body: formData
+            })
+                .then(async (response) => {
+                    if (response.status === 200) {
+                        // Success Logic
+                        if (form) form.style.display = 'none';
+                        if (modalHeader) modalHeader.style.display = 'none';
+                        if (modalDesc) modalDesc.style.display = 'none';
+
+                        if (successMsg) {
+                            successMsg.style.display = 'block';
+                            // Reset form for next time after a delay
+                            setTimeout(() => {
+                                closeModal();
+                                // Reset UI after closing
+                                setTimeout(() => {
+                                    form.style.display = 'block';
+                                    modalHeader.style.display = 'block';
+                                    modalDesc.style.display = 'block';
+                                    successMsg.style.display = 'none';
+                                    form.reset();
+                                    submitButton.innerHTML = 'Send Inquiry';
+                                    submitButton.disabled = false;
+                                }, 500);
+                            }, 3000);
+                        } else {
+                            closeModal();
+                        }
+                    } else {
+                        console.log(response);
+                        alert('Something went wrong. Please try again later.');
+                        submitButton.innerHTML = 'Send Inquiry';
+                        submitButton.disabled = false;
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+                    alert('Something went wrong. Please try again later.');
+                    submitButton.innerHTML = 'Send Inquiry';
+                    submitButton.disabled = false;
+                });
         });
     }
-    // Force-hide Spline UI (Watermark & Pointer) via Shadow DOM bypass
-    const spline = document.querySelector('spline-viewer');
-    if (spline) {
-        const hideSplineUI = () => {
-            const shadowRoot = spline.shadowRoot;
-            if (shadowRoot) {
-                const style = document.createElement('style');
-                style.textContent = `
+
+    if (successMsg) {
+        successMsg.style.display = 'block';
+        // Reset form for next time after a delay
+        setTimeout(() => {
+            closeModal();
+            // Optional: Reset UI after closing so it's ready for next click
+            setTimeout(() => {
+                form.style.display = 'block';
+                modalHeader.style.display = 'block';
+                modalDesc.style.display = 'block';
+                successMsg.style.display = 'none';
+                form.reset();
+            }, 500);
+        }, 3000);
+    } else {
+        closeModal();
+    }
+});
+    }
+// Force-hide Spline UI (Watermark & Pointer) via Shadow DOM bypass
+const spline = document.querySelector('spline-viewer');
+if (spline) {
+    const hideSplineUI = () => {
+        const shadowRoot = spline.shadowRoot;
+        if (shadowRoot) {
+            const style = document.createElement('style');
+            style.textContent = `
                     #logo, #hint, #loading, #interaction-hint, #preloader,
                     .spline-watermark, .spline-hint-container, .spline-loading,
                     [id*="hint"], [class*="hint"], [id*="logo"], [id*="watermark"],
@@ -238,78 +267,78 @@ document.addEventListener('DOMContentLoaded', () => {
                         height: 0 !important;
                     }
                 `;
-                shadowRoot.appendChild(style);
-            }
-        };
-
-        hideSplineUI();
-        spline.addEventListener('load', hideSplineUI);
-
-        // Repeated check for late-loading elements (Optimized)
-        let attempts = 0;
-        const interval = setInterval(() => {
-            hideSplineUI();
-            if (++attempts > 5) clearInterval(interval);
-        }, 2000);
-    }
-
-    // Hide Scroll Hints on Interaction
-    const sliderContainers = document.querySelectorAll('.services-grid, .gallery-grid');
-    sliderContainers.forEach(container => {
-        container.addEventListener('scroll', () => {
-            const hint = container.parentElement.querySelector('.scroll-hint-overlay');
-            if (hint && container.scrollLeft > 20) {
-                hint.style.opacity = '0';
-                setTimeout(() => hint.remove(), 500);
-            }
-        }, { once: true });
-    });
-
-    // --- Luxury Smooth Scroll Engine ---
-    const smoothScrollTo = (targetY, duration) => {
-        const startY = window.pageYOffset;
-        const difference = targetY - startY;
-        const startTime = performance.now();
-
-        const easing = (t) => {
-            // Cubic ease-in-out for a physical, premium feel
-            return t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
-        };
-
-        const step = (currentTime) => {
-            const progress = Math.min((currentTime - startTime) / duration, 1);
-            window.scrollTo(0, startY + difference * easing(progress));
-
-            if (progress < 1) {
-                requestAnimationFrame(step);
-            }
-        };
-
-        requestAnimationFrame(step);
+            shadowRoot.appendChild(style);
+        }
     };
 
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            const targetId = this.getAttribute('href');
-            if (targetId === '#') return;
+    hideSplineUI();
+    spline.addEventListener('load', hideSplineUI);
 
-            const targetElement = document.querySelector(targetId);
-            if (targetElement) {
-                e.preventDefault();
+    // Repeated check for late-loading elements (Optimized)
+    let attempts = 0;
+    const interval = setInterval(() => {
+        hideSplineUI();
+        if (++attempts > 5) clearInterval(interval);
+    }, 2000);
+}
 
-                // Get target position with a bit of offset for the fixed navbar if needed
-                // Currently navbar hides on scroll, but let's assume a 20px buffer for aesthetics
-                const targetY = targetElement.getBoundingClientRect().top + window.pageYOffset - 20;
+// Hide Scroll Hints on Interaction
+const sliderContainers = document.querySelectorAll('.services-grid, .gallery-grid');
+sliderContainers.forEach(container => {
+    container.addEventListener('scroll', () => {
+        const hint = container.parentElement.querySelector('.scroll-hint-overlay');
+        if (hint && container.scrollLeft > 20) {
+            hint.style.opacity = '0';
+            setTimeout(() => hint.remove(), 500);
+        }
+    }, { once: true });
+});
 
-                // 1.5 seconds for a "Luxury Slow" glide
-                smoothScrollTo(targetY, 1500);
+// --- Luxury Smooth Scroll Engine ---
+const smoothScrollTo = (targetY, duration) => {
+    const startY = window.pageYOffset;
+    const difference = targetY - startY;
+    const startTime = performance.now();
 
-                // Close mobile menu if open (assuming a class like 'active' on nav-links)
-                const navLinks = document.querySelector('.nav-links');
-                if (navLinks && navLinks.classList.contains('active')) {
-                    navLinks.classList.remove('active');
-                }
+    const easing = (t) => {
+        // Cubic ease-in-out for a physical, premium feel
+        return t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
+    };
+
+    const step = (currentTime) => {
+        const progress = Math.min((currentTime - startTime) / duration, 1);
+        window.scrollTo(0, startY + difference * easing(progress));
+
+        if (progress < 1) {
+            requestAnimationFrame(step);
+        }
+    };
+
+    requestAnimationFrame(step);
+};
+
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+            e.preventDefault();
+
+            // Get target position with a bit of offset for the fixed navbar if needed
+            // Currently navbar hides on scroll, but let's assume a 20px buffer for aesthetics
+            const targetY = targetElement.getBoundingClientRect().top + window.pageYOffset - 20;
+
+            // 1.5 seconds for a "Luxury Slow" glide
+            smoothScrollTo(targetY, 1500);
+
+            // Close mobile menu if open (assuming a class like 'active' on nav-links)
+            const navLinks = document.querySelector('.nav-links');
+            if (navLinks && navLinks.classList.contains('active')) {
+                navLinks.classList.remove('active');
             }
-        });
+        }
     });
+});
 });
