@@ -945,9 +945,9 @@ spline-viewer {
     }
 
     .navbar {
-        width: 92%;
-        padding: 10px 12px;
-        gap: 8px;
+        width: 88%;
+        padding: 10px 10px;
+        gap: 6px;
         top: 20px;
     }
 
@@ -965,7 +965,7 @@ spline-viewer {
     }
 
     .nav-links {
-        gap: 8px;
+        gap: 6px;
     }
 
     .nav-links a {
