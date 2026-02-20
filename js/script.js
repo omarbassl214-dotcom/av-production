@@ -189,7 +189,33 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
 
-            closeModal();
+            // Outro Message Logic
+            const form = document.getElementById('booking-form');
+            const successMsg = document.querySelector('.success-message');
+            const modalHeader = document.querySelector('.modal-content h2');
+            const modalDesc = document.querySelector('.modal-content p');
+
+            if (form) form.style.display = 'none';
+            if (modalHeader) modalHeader.style.display = 'none';
+            if (modalDesc) modalDesc.style.display = 'none';
+
+            if (successMsg) {
+                successMsg.style.display = 'block';
+                // Reset form for next time after a delay
+                setTimeout(() => {
+                    closeModal();
+                    // Optional: Reset UI after closing so it's ready for next click
+                    setTimeout(() => {
+                        form.style.display = 'block';
+                        modalHeader.style.display = 'block';
+                        modalDesc.style.display = 'block';
+                        successMsg.style.display = 'none';
+                        form.reset();
+                    }, 500);
+                }, 3000);
+            } else {
+                closeModal();
+            }
         });
     }
     // Force-hide Spline UI (Watermark & Pointer) via Shadow DOM bypass
