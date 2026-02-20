@@ -198,6 +198,9 @@ document.addEventListener('DOMContentLoaded', () => {
                             // Reset form for next time after a delay
                             setTimeout(() => {
                                 closeModal();
+                                // Scroll to Hero / Top
+                                window.scrollTo({ top: 0, behavior: 'smooth' });
+
                                 // Reset UI after closing
                                 setTimeout(() => {
                                     form.style.display = 'block';
@@ -211,6 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             }, 3000);
                         } else {
                             closeModal();
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
                         }
                     } else {
                         console.log(response);
@@ -227,34 +231,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
         });
     }
-
-    if (successMsg) {
-        successMsg.style.display = 'block';
-        // Reset form for next time after a delay
-        setTimeout(() => {
-            closeModal();
-            // Optional: Reset UI after closing so it's ready for next click
-            setTimeout(() => {
-                form.style.display = 'block';
-                modalHeader.style.display = 'block';
-                modalDesc.style.display = 'block';
-                successMsg.style.display = 'none';
-                form.reset();
-            }, 500);
-        }, 3000);
-    } else {
-        closeModal();
-    }
-});
-    }
-// Force-hide Spline UI (Watermark & Pointer) via Shadow DOM bypass
-const spline = document.querySelector('spline-viewer');
-if (spline) {
-    const hideSplineUI = () => {
-        const shadowRoot = spline.shadowRoot;
-        if (shadowRoot) {
-            const style = document.createElement('style');
-            style.textContent = `
+    // Force-hide Spline UI (Watermark & Pointer) via Shadow DOM bypass
+    const spline = document.querySelector('spline-viewer');
+    if (spline) {
+        const hideSplineUI = () => {
+            const shadowRoot = spline.shadowRoot;
+            if (shadowRoot) {
+                const style = document.createElement('style');
+                style.textContent = `
                     #logo, #hint, #loading, #interaction-hint, #preloader,
                     .spline-watermark, .spline-hint-container, .spline-loading,
                     [id*="hint"], [class*="hint"], [id*="logo"], [id*="watermark"],
@@ -267,78 +251,78 @@ if (spline) {
                         height: 0 !important;
                     }
                 `;
-            shadowRoot.appendChild(style);
-        }
-    };
-
-    hideSplineUI();
-    spline.addEventListener('load', hideSplineUI);
-
-    // Repeated check for late-loading elements (Optimized)
-    let attempts = 0;
-    const interval = setInterval(() => {
-        hideSplineUI();
-        if (++attempts > 5) clearInterval(interval);
-    }, 2000);
-}
-
-// Hide Scroll Hints on Interaction
-const sliderContainers = document.querySelectorAll('.services-grid, .gallery-grid');
-sliderContainers.forEach(container => {
-    container.addEventListener('scroll', () => {
-        const hint = container.parentElement.querySelector('.scroll-hint-overlay');
-        if (hint && container.scrollLeft > 20) {
-            hint.style.opacity = '0';
-            setTimeout(() => hint.remove(), 500);
-        }
-    }, { once: true });
-});
-
-// --- Luxury Smooth Scroll Engine ---
-const smoothScrollTo = (targetY, duration) => {
-    const startY = window.pageYOffset;
-    const difference = targetY - startY;
-    const startTime = performance.now();
-
-    const easing = (t) => {
-        // Cubic ease-in-out for a physical, premium feel
-        return t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
-    };
-
-    const step = (currentTime) => {
-        const progress = Math.min((currentTime - startTime) / duration, 1);
-        window.scrollTo(0, startY + difference * easing(progress));
-
-        if (progress < 1) {
-            requestAnimationFrame(step);
-        }
-    };
-
-    requestAnimationFrame(step);
-};
-
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        const targetId = this.getAttribute('href');
-        if (targetId === '#') return;
-
-        const targetElement = document.querySelector(targetId);
-        if (targetElement) {
-            e.preventDefault();
-
-            // Get target position with a bit of offset for the fixed navbar if needed
-            // Currently navbar hides on scroll, but let's assume a 20px buffer for aesthetics
-            const targetY = targetElement.getBoundingClientRect().top + window.pageYOffset - 20;
-
-            // 1.5 seconds for a "Luxury Slow" glide
-            smoothScrollTo(targetY, 1500);
-
-            // Close mobile menu if open (assuming a class like 'active' on nav-links)
-            const navLinks = document.querySelector('.nav-links');
-            if (navLinks && navLinks.classList.contains('active')) {
-                navLinks.classList.remove('active');
+                shadowRoot.appendChild(style);
             }
-        }
+        };
+
+        hideSplineUI();
+        spline.addEventListener('load', hideSplineUI);
+
+        // Repeated check for late-loading elements (Optimized)
+        let attempts = 0;
+        const interval = setInterval(() => {
+            hideSplineUI();
+            if (++attempts > 5) clearInterval(interval);
+        }, 2000);
+    }
+
+    // Hide Scroll Hints on Interaction
+    const sliderContainers = document.querySelectorAll('.services-grid, .gallery-grid');
+    sliderContainers.forEach(container => {
+        container.addEventListener('scroll', () => {
+            const hint = container.parentElement.querySelector('.scroll-hint-overlay');
+            if (hint && container.scrollLeft > 20) {
+                hint.style.opacity = '0';
+                setTimeout(() => hint.remove(), 500);
+            }
+        }, { once: true });
     });
-});
+
+    // --- Luxury Smooth Scroll Engine ---
+    const smoothScrollTo = (targetY, duration) => {
+        const startY = window.pageYOffset;
+        const difference = targetY - startY;
+        const startTime = performance.now();
+
+        const easing = (t) => {
+            // Cubic ease-in-out for a physical, premium feel
+            return t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
+        };
+
+        const step = (currentTime) => {
+            const progress = Math.min((currentTime - startTime) / duration, 1);
+            window.scrollTo(0, startY + difference * easing(progress));
+
+            if (progress < 1) {
+                requestAnimationFrame(step);
+            }
+        };
+
+        requestAnimationFrame(step);
+    };
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                e.preventDefault();
+
+                // Get target position with a bit of offset for the fixed navbar if needed
+                // Currently navbar hides on scroll, but let's assume a 20px buffer for aesthetics
+                const targetY = targetElement.getBoundingClientRect().top + window.pageYOffset - 20;
+
+                // 1.5 seconds for a "Luxury Slow" glide
+                smoothScrollTo(targetY, 1500);
+
+                // Close mobile menu if open (assuming a class like 'active' on nav-links)
+                const navLinks = document.querySelector('.nav-links');
+                if (navLinks && navLinks.classList.contains('active')) {
+                    navLinks.classList.remove('active');
+                }
+            }
+        });
+    });
 });
