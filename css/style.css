@@ -123,7 +123,20 @@ body {
     background-color: transparent;
     /* Changed from #000 to transparent */
     color: white;
-    font-family: 'Outfit', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    --font-main: 'Lato', sans-serif;
+    --font-header: 'Playfair Display', serif;
+    font-family: var(--font-main);
+}
+
+/* Fonts */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-header);
+    font-weight: 700;
 }
 
 /* Robust Spline Watermark Bypass */
