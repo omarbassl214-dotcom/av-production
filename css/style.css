@@ -343,15 +343,27 @@ spline-viewer {
 }
 
 .center-hero h1 {
-    font-size: clamp(3rem, 8vw, 6rem);
+    font-size: clamp(2.5rem, 6vw, 5rem);
     font-weight: 800;
     margin: 0;
-    letter-spacing: -2px;
+    letter-spacing: -1px;
+    line-height: 1.1;
     animation: spline-color-shift 8s ease-in-out infinite;
     /* Mirror Reflection Style */
-    -webkit-box-reflect: below -15px linear-gradient(transparent, rgba(255, 255, 255, 0.15));
+    -webkit-box-reflect: below -10px linear-gradient(transparent, transparent 20%, rgba(255, 255, 255, 0.15));
     position: relative;
     z-index: 2;
+}
+
+.subtitle {
+    font-size: clamp(0.9rem, 2vw, 1.2rem);
+    max-width: 800px;
+    margin-top: 20px;
+    margin-bottom: 40px;
+    color: rgba(255, 255, 255, 0.8);
+    position: relative;
+    z-index: 2;
+    line-height: 1.5;
 }
 
 
@@ -857,7 +869,12 @@ spline-viewer {
     }
 
     .center-hero h1 {
-        font-size: 3rem;
+        font-size: 2.2rem;
+    }
+
+    .subtitle {
+        font-size: 0.9rem;
+        padding: 0 15px;
     }
 
     .section h2 {
