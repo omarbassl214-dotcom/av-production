@@ -342,15 +342,41 @@ spline-viewer {
     /* Subtle dimming to see 3D better */
 }
 
-.center-hero h1 {
-    font-size: clamp(2.5rem, 6vw, 5rem);
+/* Layered Hero Title Effect */
+.hero-title-stack {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.hero-bg-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: clamp(3rem, 10vw, 7.5rem);
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.15);
+    /* Faint background text */
+    letter-spacing: -2px;
+    white-space: nowrap;
+    z-index: 1;
+    user-select: none;
+    pointer-events: none;
+    -webkit-box-reflect: below -10px linear-gradient(transparent, transparent 20%, rgba(255, 255, 255, 0.15));
+}
+
+.hero-fg-text {
+    font-size: clamp(2rem, 5vw, 4.2rem);
     font-weight: 800;
     margin: 0;
     letter-spacing: -1px;
     line-height: 1.1;
-    animation: spline-color-shift 8s ease-in-out infinite;
-    /* Mirror Reflection Style */
-    -webkit-box-reflect: below -10px linear-gradient(transparent, transparent 20%, rgba(255, 255, 255, 0.15));
+    color: #48cae4;
+    /* Bright cyan from mockup */
+    text-shadow: 0 0 25px rgba(72, 202, 228, 0.6);
     position: relative;
     z-index: 2;
 }
@@ -868,8 +894,12 @@ spline-viewer {
         background-attachment: fixed;
     }
 
-    .center-hero h1 {
-        font-size: 2.2rem;
+    .hero-bg-text {
+        font-size: 2.8rem;
+    }
+
+    .hero-fg-text {
+        font-size: 2.1rem;
     }
 
     .subtitle {
